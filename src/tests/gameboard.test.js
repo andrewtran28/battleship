@@ -24,7 +24,7 @@ test('Shooting at coordinates [2,3]', () => {
 test('Place ship of length 1 at [0, 0] (Horizontal/Vertical does not matter', () => {
     const gameboardTest = new Gameboard(10, 10);
     const testShip = { length: 1, hits: 0 };
-    gameboardTest.validSpot(testShip.length, [0,0], false);
+    gameboardTest.setShip(testShip.length, [0,0], false);
     expect(gameboardTest.coordinates[0][0]).toEqual({ isShot: false, ship: testShip });
     expect(gameboardTest.coordinates[0][1]).toEqual({ isShot: false, ship: null });
     expect(gameboardTest.coordinates[1][0]).toEqual({ isShot: false, ship: null });
@@ -33,7 +33,7 @@ test('Place ship of length 1 at [0, 0] (Horizontal/Vertical does not matter', ()
 test('Place ship of length 2 at [1, 1] horizontally', () => {
     const gameboardTest = new Gameboard(10, 10);
     const testShip = { length: 2, hits: 0 };
-    gameboardTest.validSpot(testShip.length, [1,1], false);
+    gameboardTest.setShip(testShip.length, [1,1], false);
     expect(gameboardTest.coordinates[1][1]).toEqual({ isShot: false, ship: testShip });
     expect(gameboardTest.coordinates[2][1]).toEqual({ isShot: false, ship: testShip });
     expect(gameboardTest.coordinates[1][2]).toEqual({ isShot: false, ship: null });
@@ -42,37 +42,36 @@ test('Place ship of length 2 at [1, 1] horizontally', () => {
 test('Place ship of length 3 at [1, 1] vertically', () => {
     const gameboardTest = new Gameboard(10, 10);
     const testShip = { length: 3, hits: 0 };
-    gameboardTest.validSpot(testShip.length, [1,1], true);
+    gameboardTest.setShip(testShip.length, [1,1], true);
     expect(gameboardTest.coordinates[1][1]).toEqual({ isShot: false, ship: testShip });
     expect(gameboardTest.coordinates[1][2]).toEqual({ isShot: false, ship: testShip });
     expect(gameboardTest.coordinates[1][3]).toEqual({ isShot: false, ship: testShip });
 });
 
-test('Place ship of length 2 at [0, 9] vertically (Invalid spot: Out of bounds)', () => {
+test('Check placement of ship of length 2 at [0, 9] vertically (Invalid spot)', () => {
     const gameboardTest = new Gameboard(10, 10);
     const testShip = { length: 2, hits: 0 };
-    expect(() => gameboardTest.validSpot(testShip.length, [0,9], true))
-        .toThrow('Ship placement is out of bounds!');
+    expect(gameboardTest.validSpot(testShip.length, [0,9], true)).toBe(false);
 });
 
-test('Place ship at [4,3] where another ship already exists (Invalid spot: Ship overlap)', () => {
+test('Check placement of ship at [4,3] where another ship already exists (Invalid spot)', () => {
     const gameboardTest = new Gameboard(10, 10);
     const testShip = { length: 2, hits: 0 };
     const testShipInvalid = { length: 3, hits: 0 };
     gameboardTest.setShip(testShipInvalid.length, [4,3], false);
-    expect(() => gameboardTest.validSpot(testShip.length, [4,3], true)).toThrow('A ship is already in this place!');
+    expect(gameboardTest.validSpot(testShip.length, [4,3], true)).toBe(false);
 });
 
 test('Not all ships are sunk', () => {
     const gameboardTest = new Gameboard(10, 10);
-    gameboardTest.validSpot(2, [0,0], false);
+    gameboardTest.setShip(2, [0,0], false);
     expect(gameboardTest.allSunk()).toBe(false);
 })
 
 test('Shoot a ship with length 1 at [1,1]; All ships sunk', () => {
     const gameboardTest = new Gameboard(10, 10);
     const testShip = { length: 1, hits: 1 }; 
-    gameboardTest.validSpot(testShip.length, [0,0], false);
+    gameboardTest.setShip(testShip.length, [0,0], false);
     gameboardTest.receiveAttack([0, 0]);
     expect(gameboardTest.coordinates[0][0]).toEqual({ isShot: true, ship: testShip });
     expect(gameboardTest.allSunk()).toBe(true);

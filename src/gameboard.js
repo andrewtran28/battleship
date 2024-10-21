@@ -23,20 +23,20 @@ class Gameboard {
         let y = coord[1];
                                    
         if(isVert && ((y + length) > this.columns)) {               //if ship is vertical
-            throw new Error('Ship placement is out of bounds!');
+            return false;
         } else if(!isVert && ((x + length) > this.rows)) {          //if ship is horizontal
-            throw new Error('Ship placement is out of bounds!');
+            return false;
         }
 
         for (var i = 0; i < length; i++) {
             if(isVert && (this.coordinates[x][y+i].ship !== null)) {                                //if ship is vertical
-                throw new Error('A ship is already in this place!');
+                return false;
             } else if(!isVert && (this.coordinates[x+i][y].ship !== null)) {                       //if ship is horizontal
-                throw new Error('A ship is already in this place!');
+                return false;
             }
         }
         
-        return this.setShip(length, coord, isVert);
+        return true;
     }
 
     setShip(length, coord, isVert) {
@@ -52,6 +52,8 @@ class Gameboard {
                 this.coordinates[x+i][y].ship = ship;
             }
         }
+
+        return true;
     }
 
     receiveAttack(coord) {
