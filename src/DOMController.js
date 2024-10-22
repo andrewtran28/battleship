@@ -89,6 +89,15 @@ const DOMController = ((player) => {
         document.getElementById(`${type}`).appendChild(cont_gameboard);
     }
 
+    const addCellEvents = () => {
+        if (turnEvent === null) {
+            return;
+        }
+
+        controller = new AbortController();
+
+    }
+
     const createGrid = () => {
         renderGrid();
         if (!showShips) {
