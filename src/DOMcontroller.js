@@ -8,6 +8,7 @@ function Gameboard(player) {
     let turnEvent = null;
 
     const setTurnEvent = (func) => {
+        console.log("setTurnEvent");
         turnEvent = func;
     }
 
@@ -20,6 +21,7 @@ function Gameboard(player) {
     }
 
     const createCell = (cellData) => {
+        console.log("@createCell");
         const cell = document.createElement('div');
         const marked = document.createElement('div');
 
@@ -40,18 +42,19 @@ function Gameboard(player) {
     };
 
     const renderGrid = () => {
-        const cont_gameboard = document.createElement('div');
-        cont_gameboard.classList.add('game-board');
+        console.log("@renderGrid");
+        const gameboardCont = document.createElement('div');
+        gameboardCont.classList.add('gameboard');
 
-        for (var i = 0; i < gameboard.size; i++) {
-            for (var j = 0; j < gameboard.size; j++) {
-                cont_gameboard.appendChild(createCell(gameboard.coordinates[i][j]));
+        for (var i = 0; i < gameboard.rows; i++) {
+            for (var j = 0; j < gameboard.columns; j++) {
+                gameboardCont.appendChild(createCell(gameboard.coordinates[i][j]));
             }
         }
 
         const type = showShips ? 'ship' : 'shooting';
         document.getElementById(`${type}`).innerHTML = '';
-        document.getElementById(`${type}`).appendChild(cont_gameboard);
+        document.getElementById(`${type}`).appendChild(gameboardCont);
     }
 
     const addCellEvents = () => {
@@ -60,7 +63,7 @@ function Gameboard(player) {
         }
 
         controller = new AbortController();
-        const cellList = Array.from(document.querySelectorAll('#shooting .board-cell'));
+        const cellList = Array.from(document.querySelectorAll('#shooting .game-cell'));
         let cellIndex = 0;
 
         for (var x = 0; x < gameboard.size; x++) {
@@ -80,6 +83,7 @@ function Gameboard(player) {
     }
 
     const createGrid = () => {
+        console.log("@createGrid");
         renderGrid();
         if (!showShips) {
             addCellEvents();

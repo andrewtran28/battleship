@@ -7,21 +7,46 @@ ice_gray = #EFE9E7
 :root {
     font-family:Arial, Helvetica, sans-serif;
     font-size: 2rem;
-    /* --ship-bg-colour: #43464B; */
-    /* box-sizing: border-box; */
 }
 
 body {
+    color: #EFE9E7;
     margin: 0;
     padding: 0;
     background-color: #0A2342;
 
 }
 
-.game-container {
+.game-cont {
+    border: 1px solid red;
     display: flex;
     flex-direction: column;
-    /* background-color: #262626; */
     z-index: 1;
 }
 
+.gameboard-cont {
+    /* background-color: white; */
+}
+
+.gameboard {
+    background-color: darkgray;
+    border: 1px dashed blue;
+    display: grid;
+    /* grid-template-columns: repeat(20px, 10); */
+    width: 300px;
+    height: 300px;
+}
+
+.board-cell {
+    border: 1px solid black;
+    width: 20px;
+    height: 20px;
+}
+
+.ship {
+    background-color: red;
+}
+
+.btn-menu {
+    border: 1px solid green;
+}

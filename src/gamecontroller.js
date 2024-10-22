@@ -6,22 +6,24 @@ const setupShipArray = [5,4,3,3,2];
 const BOARDSIZE = 10;
 
 function initializeGame(player1, player2) {
+    console.log("@initializeGame");
     const winMessage = document.getElementById('winner-message');
     setupShips(player1);
     setupShips(player2);
 
     const p1_gameboard = Gameboard(player1);
     const p2_gameboard = Gameboard(player2);
-    const computer = cpu(player1.gameboard)
+    const cpu = computer(player1.gameboard);
 
     p2_gameboard.setTurnEvent(() => {
+        p2_gameboard.createGrid();
         if (isWinner(player1.gameboard, player2.gameboard)) {
             winMessage.innerHTML = "Player 1 wins!";
             winMessage.showModal();
             return true;
         }
 
-        computer.attacking();
+        cpu.attacking();
         p1_gameboard.createGrid();
         if (isWinner(player1.gameboard, player2.gameboard)) {
             winMessage.innerHTML = "Player 2 wins!";
@@ -35,10 +37,10 @@ function initializeGame(player1, player2) {
     p1_gameboard.toggleShowShips();
     p1_gameboard.createGrid();
     p2_gameboard.createGrid();
-};
+}
 
 function setupShips(player) {
-    for (var i = 0; i < setupShips.length; i++) {
+    for (var i = 0; i < setupShipArray.length; i++) {
         let randomCoords = getRandomCoord();
         let randomOrientation = getRandomOrientation();
 
@@ -47,17 +49,17 @@ function setupShips(player) {
             randomOrientation = getRandomOrientation();
         }
 
-        player.gameboard.setShip(setupShips[i], randomCoords, randomOrientation);
+        player.gameboard.setShip(setupShipArray[i], randomCoords, randomOrientation);
     }
-};
+}
 
 function isWinner(p1_gameboard, p2_gameboard) {
     return (p1_gameboard.allSunk() || p2_gameboard.allSunk());
-};
+}
 
 function getRandomCoord() {
     return [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];  //Random number between 0-9 (within gameboard)
-};
+}
 
 function getRandomOrientation() {
     let isVert = Math.floor(Math.random()*2);  //Random 0 (!isVert) or 1 (isVert);
@@ -66,7 +68,7 @@ function getRandomOrientation() {
     return isVert;
 } 
 
-function cpu(playerBoard) {
+function computer(playerBoard) {
     let currentMove = null;
     let horiMoves = [];
     let vertMoves = [];
