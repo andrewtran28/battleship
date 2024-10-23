@@ -6,7 +6,6 @@ const setupShipArray = [5,4,3,3,2];
 const BOARDSIZE = 10;
 
 function initializeGame(player1, player2) {
-    console.log("@initializeGame");
     const winMessage = document.getElementById('winner-message');
     setupShips(player1);
     setupShips(player2);
@@ -41,15 +40,15 @@ function initializeGame(player1, player2) {
 
 function setupShips(player) {
     for (var i = 0; i < setupShipArray.length; i++) {
-        let randomCoords = getRandomCoord();
+        let [randomX, randomY] = getRandomCoord();
         let randomOrientation = getRandomOrientation();
 
-        while (!player.gameboard.validSpot(setupShipArray[i], randomCoords, randomOrientation)) {
-            randomCoords = getRandomCoord();
+        while (!player.gameboard.validSpot(setupShipArray[i], randomX, randomY, randomOrientation)) {
+            [randomX, randomY] = getRandomCoord();
             randomOrientation = getRandomOrientation();
         }
 
-        player.gameboard.setShip(setupShipArray[i], randomCoords, randomOrientation);
+        player.gameboard.setShip(setupShipArray[i], randomX, randomY, randomOrientation);
     }
 }
 
@@ -62,10 +61,8 @@ function getRandomCoord() {
 }
 
 function getRandomOrientation() {
-    let isVert = Math.floor(Math.random()*2);  //Random 0 (!isVert) or 1 (isVert);
-    isVert = 1 ? true : false;
-
-    return isVert;
+    let isVert = Math.round(Math.random());  //Random 0 (!isVert) or 1 (isVert);
+    return isVert == 1 ? true : false;
 } 
 
 function computer(playerBoard) {
@@ -75,13 +72,13 @@ function computer(playerBoard) {
     let rotation = null;
 
     const getMoves = () => {
-        const [x,y] = currentMoves;
+        const {x,y} = currentMove;
 
         if ((x > 0) && !playerBoard.coordinates[x-1][y].isShot) {
             horiMoves.push([x-1, y]);
         }
 
-        if ((x+1 < BOARDSIZE) && !playerBoard.coordinates[x+1][y]) {
+        if ((x+1 < BOARDSIZE) && !playerBoard.coordinates[x+1][y].isShot) {
             horiMoves.push([x+1, y]);
         }
 
@@ -89,7 +86,7 @@ function computer(playerBoard) {
             vertMoves.push([x, y-1]);
         }
 
-        if ((y+1 < BOARDSIZE) && !playerBoard.coordinates[x][y+1]) {
+        if ((y+1 < BOARDSIZE) && !playerBoard.coordinates[x][y+1].isShot) {
             vertMoves.push([x, y+1]);
         }
     }
@@ -98,37 +95,49 @@ function computer(playerBoard) {
         let x = null;
         let y = null;  
 
-        if(currentMove = null) {
-            [x,y] = getRandomCoord();
+        if(currentMove === null) {
+            [x,y] = getRandomXY();
         } else {
-            [x,y] = currentMove;
+            ({ x, y } = currentMove);
         }
 
         const shipShot = playerBoard.receiveAttack (x, y);
 
         if(shipShot) {
-            currentMove = [x,y];
+            currentMove = {x,y};
             getMoves();
 
             if(rotation === 'vertical') {           //if ship is vertical, clear possible computer horizontal moves
                 horiMoves = [];
-            } else if (!isVert === 'horizontal') {
+            } else if (rotation === 'horizontal') {
                 vertMoves = [];
             }
         }
 
         if (horiMoves.length > 0) {
             [x, y] = horiMoves.shift();
-            currentMove = [x,y];
+            currentMove = {x,y};
             rotation = 'horizontal';
         } else if (vertMoves.length > 0) {
-            [x, y] = vertMove.shift();
-            currentMove = [x,y];
+            [x, y] = vertMoves.shift();
+            currentMove = {x,y};
             rotation = 'vertical';
         } else {
             currentMove = null;
             rotation = null;
         }
+
+        return { attacking };
+    }
+
+    const getRandomXY = () => {
+        let [randomX, randomY] = getRandomCoord();
+
+        while (playerBoard.coordinates[randomX][randomY].isShot) {
+            [randomX, randomY] = getRandomCoord();
+        }
+
+        return [randomX, randomY];
     }
 
     return { attacking }

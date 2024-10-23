@@ -7,44 +7,89 @@ ice_gray = #EFE9E7
 :root {
     font-family:Arial, Helvetica, sans-serif;
     font-size: 2rem;
+
+    --ship-colour: #b5b5b5;
+    --board-colour: #3cafe0;
+    --cell-colour: #EFE9E7;
+    --background-colour: #0A2342;
 }
 
 body {
     color: #EFE9E7;
+    height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: #0A2342;
+    background-color: var(--background-colour);
+    /* display: grid; */
+    /* grid-template-rows: 1fr 12fr 0.5fr; */
 
 }
 
 .game-cont {
     border: 1px solid red;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     z-index: 1;
 }
 
 .gameboard-cont {
-    /* background-color: white; */
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
 }
 
 .gameboard {
-    background-color: darkgray;
     border: 1px dashed blue;
     display: grid;
-    /* grid-template-columns: repeat(20px, 10); */
-    width: 300px;
-    height: 300px;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(10px, 60px));
+    justify-content: center;
+    max-width: 90%;
+    border: 1px solid black;
 }
 
 .board-cell {
     border: 1px solid black;
-    width: 20px;
-    height: 20px;
+    background-color: var(--board-colour);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1;
+}
+
+.board-cell.shot {
+    border: 1px solid yellow;
+    background-color: yellow;
+}
+
+.mark {
+    border: 1px solid #9bcce1;
+    background-color: #1586b63e;
+    width: 35%;
+    height: 35%;
+    border-radius: 20px;
+}
+
+.shot {
+    border: 1px solid yellow;
+    background-color: yellow;
+    width: 35%;
+    height: 35%;
+    border-radius: 20px;
+}
+
+.board-cell.ship-shot {
+    border: 1px solid red;
+    background-color: red;
+    width: 35%;
+    height: 35%;
+    border-radius: 20px;
 }
 
 .ship {
-    background-color: red;
+    background-color: var(--ship-colour);
 }
 
 .btn-menu {

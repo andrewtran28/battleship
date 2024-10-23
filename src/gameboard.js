@@ -18,9 +18,7 @@ class Gameboard {
         this.coordinates = coordinates;
     }
 
-    validSpot(length, coord, isVert) {
-        let x = coord[0];
-        let y = coord[1];
+    validSpot(length, x, y, isVert) {
                                    
         if(isVert && ((y + length) > this.columns)) {               //if ship is vertical
             return false;
@@ -31,7 +29,7 @@ class Gameboard {
         for (var i = 0; i < length; i++) {
             if(isVert && (this.coordinates[x][y+i].ship !== null)) {                                //if ship is vertical
                 return false;
-            } else if(!isVert && (this.coordinates[x+i][y].ship !== null)) {                       //if ship is horizontal
+            } else if(!isVert && (this.coordinates[x+i][y].ship !== null)) {                        //if ship is horizontal
                 return false;
             }
         }
@@ -39,9 +37,7 @@ class Gameboard {
         return true;
     }
 
-    setShip(length, coord, isVert) {
-        let x = coord[0];
-        let y = coord[1];
+    setShip(length, x, y, isVert) {
         const ship = new Ship(length);
         this.ships.push(ship);
 
@@ -56,9 +52,7 @@ class Gameboard {
         return true;
     }
 
-    receiveAttack(coord) {
-        let x = coord[0];
-        let y = coord[1];
+    receiveAttack(x, y) {
         this.coordinates[x][y].isShot = true;
         const target = this.coordinates[x][y].ship;
 

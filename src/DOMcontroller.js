@@ -8,7 +8,6 @@ function Gameboard(player) {
     let turnEvent = null;
 
     const setTurnEvent = (func) => {
-        console.log("setTurnEvent");
         turnEvent = func;
     }
 
@@ -21,12 +20,11 @@ function Gameboard(player) {
     }
 
     const createCell = (cellData) => {
-        console.log("@createCell");
         const cell = document.createElement('div');
-        const marked = document.createElement('div');
+        const mark = document.createElement('div');
 
         cell.classList.add('board-cell');
-        marked.classList.add('marked');
+        mark.classList.add('mark');
 
         if (cellData.ship && cellData.isShot) {
             cell.classList.add('ship-shot');
@@ -36,13 +34,12 @@ function Gameboard(player) {
             cell.classList.add('shot');
         }
 
-        cell.appendChild(marked);
+        cell.appendChild(mark);
 
         return cell;
     };
 
     const renderGrid = () => {
-        console.log("@renderGrid");
         const gameboardCont = document.createElement('div');
         gameboardCont.classList.add('gameboard');
 
@@ -63,16 +60,16 @@ function Gameboard(player) {
         }
 
         controller = new AbortController();
-        const cellList = Array.from(document.querySelectorAll('#shooting .game-cell'));
+        const cellList = Array.from(document.querySelectorAll('#shooting .board-cell'));
         let cellIndex = 0;
 
-        for (var x = 0; x < gameboard.size; x++) {
-            for (var y = 0; y < gameboard.size; x++) {
+        for (let x = 0; x < gameboard.rows; x++) {
+            for (let y = 0; y < gameboard.columns; y++) {
                 if (!gameboard.coordinates[x][y].isShot) {
                     cellList[cellIndex].addEventListener('click', () => {
-                        gameboard.receiveAttack([x,y]);
+                        gameboard.receiveAttack(x,y);
                         const endGame = getTurnEvent();
-                        if (endgame) {
+                        if (endGame) {
                             getController().abort();
                         }
                     }, {signal: controller.signal});
@@ -83,7 +80,6 @@ function Gameboard(player) {
     }
 
     const createGrid = () => {
-        console.log("@createGrid");
         renderGrid();
         if (!showShips) {
             addCellEvents();
