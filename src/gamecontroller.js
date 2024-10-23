@@ -1,12 +1,29 @@
 //"DOM_methods"
 
 import { Gameboard } from "./DOMcontroller";
+import { Player } from "./player";
 
 const setupShipArray = [5,4,3,3,2];
 const BOARDSIZE = 10;
 
+function newGame() {
+    const player1 = new Player('human');
+    const player2 = new Player('computer');
+    initializeGame(player1, player2);
+}
+
 function initializeGame(player1, player2) {
-    const winMessage = document.getElementById('winner-message');
+    const dialog = document.querySelector("dialog");
+    const winMessage = document.getElementById('win-message');
+    const btn_close = document.createElement('button');
+    btn_close.id = "btn-close";
+    btn_close.textContent = "Start New Game";
+
+    btn_close.addEventListener('click', () => {
+        dialog.close();
+        newGame();
+    });
+
     setupShips(player1);
     setupShips(player2);
 
@@ -17,16 +34,18 @@ function initializeGame(player1, player2) {
     p2_gameboard.setTurnEvent(() => {
         p2_gameboard.createGrid();
         if (isWinner(player1.gameboard, player2.gameboard)) {
-            winMessage.innerHTML = "Player 1 wins!";
-            winMessage.showModal();
+            winMessage.textContent = "PLAYER 1 WINS!";
+            winMessage.appendChild(btn_close);
+            dialog.showModal();
             return true;
         }
 
         cpu.attacking();
         p1_gameboard.createGrid();
         if (isWinner(player1.gameboard, player2.gameboard)) {
-            winMessage.innerHTML = "Player 2 wins!";
-            winMessage.showModal();
+            winMessage.textContent = "PLAYER 2 WINS!"; 
+            winMessage.appendChild(btn_close);
+            dialog.showModal();
             return true;
         }
 
@@ -143,4 +162,4 @@ function computer(playerBoard) {
     return { attacking }
 }
 
-export { initializeGame };
+export { newGame };

@@ -1,39 +1,40 @@
-/*
-coral = #FF7F50
-navy = #0A2342
-ice_gray = #EFE9E7
-*/
-
 :root {
-    font-family:Arial, Helvetica, sans-serif;
-    font-size: 2rem;
-
-    --ship-colour: #b5b5b5;
+    font-size: 1.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    --ship-colour: #d2d2d2;
     --board-colour: #3cafe0;
-    --cell-colour: #EFE9E7;
+    --menu-colour: #a3a3a3;
     --background-colour: #0A2342;
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     color: #EFE9E7;
-    height: 100vh;
     margin: 0;
     padding: 0;
     background-color: var(--background-colour);
-    /* display: grid; */
-    /* grid-template-rows: 1fr 12fr 0.5fr; */
+}
 
+h1 {
+    border: 5px solid #EFE9E7;
+    font-size: 4rem;
+    padding: 20px;
+    background: -webkit-linear-gradient(#247ea4, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .game-cont {
-    border: 1px solid red;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     z-index: 1;
 }
 
 .gameboard-cont {
     display: flex;
+    flex-direction: column;
     grid-template-columns: 1fr 1fr;
     align-content: center;
     align-items: center;
@@ -41,13 +42,11 @@ body {
 }
 
 .gameboard {
-    border: 1px dashed blue;
-    display: grid;
     display: grid;
     grid-template-columns: repeat(10, minmax(10px, 60px));
     justify-content: center;
     max-width: 90%;
-    border: 1px solid black;
+    border: 3px solid rgb(255, 0, 0);
 }
 
 .board-cell {
@@ -59,9 +58,8 @@ body {
     aspect-ratio: 1;
 }
 
-.board-cell.shot {
-    border: 1px solid yellow;
-    background-color: yellow;
+.board-cell:hover {
+    filter: brightness(85%);
 }
 
 .mark {
@@ -72,26 +70,72 @@ body {
     border-radius: 20px;
 }
 
-.shot {
-    border: 1px solid yellow;
+.board-cell.shot .mark {
+    border: 1px solid rgb(170, 170, 0);
     background-color: yellow;
-    width: 35%;
-    height: 35%;
-    border-radius: 20px;
 }
 
-.board-cell.ship-shot {
-    border: 1px solid red;
+.board-cell.ship-shot .mark{
+    border: 1px solid rgb(199, 0, 0);
     background-color: red;
-    width: 35%;
-    height: 35%;
-    border-radius: 20px;
 }
 
 .ship {
     background-color: var(--ship-colour);
 }
 
+.board-cell.ship-shot {
+    background-color: var(--ship-colour);
+}
+
 .btn-menu {
-    border: 1px solid green;
+    display: flex;
+    justify-content: center;
+    background-color: var(--menu-colour);
+    box-shadow: 10px 10px 0px 0px rgb(0, 0, 0);
+    padding: 30px 20%;
+    margin: 20px 0;
+}
+
+button {
+    background-color: var(--ship-colour);
+    font-size: 1rem;
+    padding: 10px;
+}
+
+button:hover {
+    background-color: yellow;
+}
+
+dialog {
+    background-color: #EFE9E7;
+    color: red;
+    font-weight: 900;
+    font-size: 1.5rem;
+    border: 20px solid var(--ship-colour);
+    box-shadow: 10px 10px 0px 0px var(--background-colour);
+    padding: 50px;
+    position: absolute;
+    bottom: 50vh;
+    z-index: 1;
+}
+
+#win-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#btn-close {
+    background-color: var(--board-colour);
+    margin-top: 20px;
+    padding: 10px;
+}
+
+#btn-close:hover {
+    background-color: red;
+}
+
+#win-message::backdrop {
+    background-color: #07182e9a;
 }

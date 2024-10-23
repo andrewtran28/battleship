@@ -50,7 +50,13 @@ function Gameboard(player) {
         }
 
         const type = showShips ? 'ship' : 'shooting';
-        document.getElementById(`${type}`).innerHTML = '';
+
+        if (type === 'ship') {
+            document.getElementById(`${type}`).innerHTML = "OCEAN GRID";
+        } else if (type === 'shooting') {
+            document.getElementById(`${type}`).innerHTML = "TARGET GRID";
+        }
+
         document.getElementById(`${type}`).appendChild(gameboardCont);
     }
 
