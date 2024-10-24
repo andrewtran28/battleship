@@ -64,7 +64,7 @@ h1 {
     aspect-ratio: 1;
 }
 
-.board-cell:hover {
+#shooting.gameboard-cont .gameboard .board-cell:hover {
     filter: brightness(85%);
 }
 
