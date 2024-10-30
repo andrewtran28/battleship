@@ -52,7 +52,11 @@ h1 {
     grid-template-columns: repeat(10, minmax(10px, 60px));
     justify-content: center;
     max-width: 90%;
-    border: 3px solid rgb(255, 0, 0);
+    border: 5px solid rgb(255, 0, 0);
+}
+
+#ship.gameboard-cont .gameboard {
+    border: 5px solid rgb(0, 55, 255);
 }
 
 .board-cell {
@@ -74,16 +78,21 @@ h1 {
     width: 35%;
     height: 35%;
     border-radius: 20px;
+    transition: background-color 1s ease-out 0.25s;
 }
 
 .board-cell.shot .mark {
     border: 1px solid rgb(170, 170, 0);
     background-color: yellow;
+    transition: background-color 1s ease-in 0.25s;
+    cursor: pointer;
 }
 
 .board-cell.ship-shot .mark{
     border: 1px solid rgb(199, 0, 0);
     background-color: red;
+    transition: background-color 1s ease-in 0.25s;
+    cursor: pointer;
 }
 
 .ship {
